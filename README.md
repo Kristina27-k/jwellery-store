@@ -23,7 +23,7 @@ A full-stack, e-commerce jewellery store application built with .NET 8 and Svelt
 -   **Tailwind CSS**: Professional styling.
 -   **Universal Cookies**: Server-friendly session management.
 
-## 📦 Getting Started
+## Getting Started
 
 ### 1. Database Setup
 Run the [database.sql](file:///home/notcool/.gemini/antigravity/brain/97b03cce-5b2e-4730-b2ef-e47bc8b8dcd0/database.sql) script in your PostgreSQL instance to create the tables and seed sample data.
