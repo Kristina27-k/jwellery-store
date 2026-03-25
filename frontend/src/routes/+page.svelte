@@ -150,29 +150,20 @@ person = {
 
 <!-- Header.svelte -->
 <script>
-
 	import NavBar from "$lib/component/nav.svelte";
 	import heeroing from "$lib/img/bg.png";
 	export let title = "The Kristi Shop";
 	import Herosection from "$lib/component/hero.svelte";
+	import Popular from "$lib/component/popularproduct.svelte";
 	// import jwellery from "$lib/component/";
+	import earring from "$lib/img/earring.png";
 	let name = "kristina";
 	let count = 0;
 </script>
 
 <Herosection />
-<section class="bg-[#E5DED5] px-10 py-5">
-<h3 class="capitalize text-[20px] ">this week </h3>
-<h2 class="capitalize text-[28px]">popular product</h2>
-</section>
-<section>
-	<div class="grid grid-cols-4">
-<div class="bg-white">
-<img src="">
+<Popular />
 
-</div>
-	</div>
-</section>
 <!-- for nav -->
 
 <!-- <header>

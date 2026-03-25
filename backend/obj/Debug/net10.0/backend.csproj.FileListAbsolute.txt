@@ -34,3 +34,4 @@
 /Users/christinakarki/svelte/backend/obj/Debug/net10.0/backend.pdb
 /Users/christinakarki/svelte/backend/obj/Debug/net10.0/backend.genruntimeconfig.cache
 /Users/christinakarki/svelte/backend/obj/Debug/net10.0/ref/backend.dll
+/Users/christinakarki/svelte/backend/obj/Debug/net10.0/backend.sourcelink.json
