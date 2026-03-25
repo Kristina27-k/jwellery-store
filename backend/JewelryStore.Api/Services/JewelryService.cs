@@ -1,3 +1,4 @@
+using JewelryStore.Api.Models.Common;
 using JewelryStore.Api.Models.DTOs;
 using JewelryStore.Api.Models.Entities;
 using JewelryStore.Api.Repositories;
@@ -56,7 +57,6 @@ public class JewelryService : IJewelryService
         Price = entity.Price,
         ImageUrl = entity.ImageUrl,
         CategoryId = entity.CategoryId
-        // CategoryName would ideally be joined in the repository
     };
 
     private static JewelryItemEntity MapToEntity(JewelryItemDto dto) => new()

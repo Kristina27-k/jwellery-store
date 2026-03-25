@@ -52,7 +52,7 @@ public class AuthService : IAuthService
     {
         var user = await _authRepository.GetByEmailAsync(request.Email);
         
-        if (user == null || !BC.Verify(request.Password, user.PasswordHash))
+        if (user == null || string.IsNullOrEmpty(user.PasswordHash) || !BC.Verify(request.Password, user.PasswordHash))
         {
             return ServiceResponse<AuthResponse>.Failure("Invalid email or password.");
         }

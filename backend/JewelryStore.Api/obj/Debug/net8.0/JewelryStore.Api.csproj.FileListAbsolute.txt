@@ -37,3 +37,12 @@
 /home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/Dapper.dll
 /home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/Npgsql.dll
 /home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/System.Diagnostics.DiagnosticSource.dll
+/home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/BCrypt.Net-Next.dll
+/home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/home/notcool/Desktop/jwellery-store/backend/JewelryStore.Api/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

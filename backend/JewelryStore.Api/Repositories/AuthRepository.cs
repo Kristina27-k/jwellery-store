@@ -3,6 +3,8 @@ using Dapper;
 using JewelryStore.Api.Models.Entities;
 using Npgsql;
 
+namespace JewelryStore.Api.Repositories;
+
 public class AuthRepository : IAuthRepository
 {
     private readonly string _connectionString;

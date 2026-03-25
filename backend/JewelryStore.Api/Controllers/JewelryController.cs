@@ -35,7 +35,7 @@ public class JewelryController : ControllerBase
     {
         var response = await _service.AddJewelryAsync(itemDto);
         if (!response.IsSuccess) return BadRequest(response);
-        return CreatedAtAction(nameof(GetById), new { id = itemDto.Data?.Id }, response);
+        return CreatedAtAction(nameof(GetById), new { id = response.Data?.Id }, response);
     }
 
     [HttpPut("{id}")]

@@ -6,6 +6,9 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure Dapper to match snake_case columns to PascalCase properties
+Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
