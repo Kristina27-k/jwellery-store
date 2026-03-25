@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { auth, logout } from '$lib/stores/authStore';
 	export let links = [
 		{ name: "Home", url: "/" },
 		{ name: "About", url: "/about" },
@@ -13,8 +14,35 @@
 				<a href={link.url}>{link.name}</a>
 			</li>
 		{/each}
+		
+		{#if $auth}
+			<li>
+				<span>Hello, {$auth.username}</span>
+			</li>
+			<li>
+				<button onclick={logout} class="logout-btn">Logout</button>
+			</li>
+		{:else}
+			<li>
+				<a href="/login">Login</a>
+			</li>
+			<li>
+				<a href="/register">Register</a>
+			</li>
+		{/if}
 	</ul>
 </nav>
+
+<style>
+	.logout-btn {
+		background: none;
+		border: none;
+		color: red;
+		cursor: pointer;
+		font: inherit;
+		padding: 0;
+	}
+</style>
 
 <!-- <style>
 	nav {
