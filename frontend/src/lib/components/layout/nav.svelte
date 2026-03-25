@@ -16,8 +16,16 @@
 		{/each}
 		
 		{#if $auth}
+			{#if $auth.role === 'Admin'}
+				<li>
+					<a href="/admin">Admin</a>
+				</li>
+			{/if}
 			<li>
-				<span>Hello, {$auth.username}</span>
+				<a href="/user">Account</a>
+			</li>
+			<li class="px-4">
+				<span class="text-gray-600">{$auth.username}</span>
 			</li>
 			<li>
 				<button onclick={logout} class="logout-btn">Logout</button>
