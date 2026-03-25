@@ -1,0 +1,18 @@
+# .NET
+bin/
+obj/
+*.user
+*.userosscache
+*.sln.docuser
+
+# Node.js
+node_modules/
+.svelte-kit/
+build/
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
