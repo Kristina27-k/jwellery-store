@@ -1,6 +1,6 @@
-# 💍 Professional Jewellery Store API & Frontend
+# Professional Jewellery Store API & Frontend
 
-A full-stack, ejewellery store application built with .NET 8 and SvelteKit.
+A full-stack, e-commerce jewellery store application built with .NET 8 and SvelteKit.
 
 ## Key Features
 
