@@ -150,12 +150,12 @@ person = {
 
 <!-- Header.svelte -->
 <script>
-	import NavBar from "$lib/component/nav.svelte";
+	import NavBar from "$lib/components/features/nav.svelte";
 	import heeroing from "$lib/img/bg.png";
 	export let title = "The Kristi Shop";
-	import Herosection from "$lib/component/hero.svelte";
-	import Popular from "$lib/component/popularproduct.svelte";
-	// import jwellery from "$lib/component/";
+	import Herosection from "$lib/components/features/hero.svelte";
+	import Popular from "$lib/components/features/popularproduct.svelte";
+	// import jwellery from "$lib/components/features/";
 	import earring from "$lib/img/earring.png";
 	let name = "kristina";
 	let count = 0;

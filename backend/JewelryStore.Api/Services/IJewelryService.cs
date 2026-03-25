@@ -1,4 +1,4 @@
-using JewelryStore.Api.Models.DTO;
+using JewelryStore.Api.Models.DTOs;
 
 namespace JewelryStore.Api.Services;
 

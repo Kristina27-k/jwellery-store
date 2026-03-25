@@ -6,10 +6,10 @@
 	];
 </script>
 
-<nav class="text-black ">
+<nav class="text-black">
 	<ul class="flex">
 		{#each links as link}
-			<li >
+			<li>
 				<a href={link.url}>{link.name}</a>
 			</li>
 		{/each}

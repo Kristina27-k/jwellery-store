@@ -1,6 +1,6 @@
-namespace JewelryStore.Api.Models.DTO;
+namespace JewelryStore.Api.Models.Entities;
 
-public class CategoryDto
+public class CategoryEntity
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;

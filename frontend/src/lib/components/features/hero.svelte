@@ -2,7 +2,7 @@
     import opacuityimg from "$lib/img/opacity.png";
     import heeroing from "$lib/img/bg.png";
     import earring from "$lib/img/earring.png";
-    import Nav from "$lib/component/nav.svelte";
+    import Nav from "$lib/components/features/nav.svelte";
     // import "../app.css";
 </script>
 

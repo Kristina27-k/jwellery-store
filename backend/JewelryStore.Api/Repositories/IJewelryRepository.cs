@@ -1,4 +1,4 @@
-using JewelryStore.Api.Models.Entity;
+using JewelryStore.Api.Models.Entities;
 
 namespace JewelryStore.Api.Repositories;
 

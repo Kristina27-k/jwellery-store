@@ -1,5 +1,5 @@
-using JewelryStore.Api.Models.DTO;
-using JewelryStore.Api.Models.Entity;
+using JewelryStore.Api.Models.DTOs;
+using JewelryStore.Api.Models.Entities;
 using JewelryStore.Api.Repositories;
 
 namespace JewelryStore.Api.Services;

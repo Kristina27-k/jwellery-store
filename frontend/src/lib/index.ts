@@ -1,5 +1,5 @@
 // place files you want to import through the `$lib` alias in this folder.
-import { z } from '';
+import { z } from 'zod';
 
 export const registerSchema = z.object({
   email: z.string().email(),

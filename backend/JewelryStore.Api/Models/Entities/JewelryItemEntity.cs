@@ -1,4 +1,4 @@
-namespace JewelryStore.Api.Models.Entity;
+namespace JewelryStore.Api.Models.Entities;
 
 public class JewelryItemEntity
 {

@@ -1,4 +1,4 @@
-using JewelryStore.Api.Models.DTO;
+using JewelryStore.Api.Models.DTOs;
 using JewelryStore.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +18,7 @@ public class JewelryController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<JewelryItemDto>>> GetAll()
     {
-         
+
         var items = await _service.GetAllJewelryAsync();
         return Ok(items);
     }

@@ -1,6 +1,6 @@
 using System.Data;
 using Dapper;
-using JewelryStore.Api.Models.Entity;
+using JewelryStore.Api.Models.Entities;
 using Npgsql;
 
 namespace JewelryStore.Api.Repositories;

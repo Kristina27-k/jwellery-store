@@ -1,4 +1,4 @@
-namespace JewelryStore.Api.Models.DTO;
+namespace JewelryStore.Api.Models.DTOs;
 
 public class JewelryItemDto
 {
