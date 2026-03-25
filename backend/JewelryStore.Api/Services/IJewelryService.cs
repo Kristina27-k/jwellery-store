@@ -1,12 +1,13 @@
+using JewelryStore.Api.Models.Common;
 using JewelryStore.Api.Models.DTOs;
 
 namespace JewelryStore.Api.Services;
 
 public interface IJewelryService
 {
-    Task<IEnumerable<JewelryItemDto>> GetAllJewelryAsync();
-    Task<JewelryItemDto?> GetJewelryByIdAsync(int id);
-    Task AddJewelryAsync(JewelryItemDto itemDto);
-    Task UpdateJewelryAsync(JewelryItemDto itemDto);
-    Task DeleteJewelryAsync(int id);
+    Task<ServiceResponse<IEnumerable<JewelryItemDto>>> GetAllJewelryAsync();
+    Task<ServiceResponse<JewelryItemDto>> GetJewelryByIdAsync(int id);
+    Task<ServiceResponse<JewelryItemDto>> AddJewelryAsync(JewelryItemDto itemDto);
+    Task<ServiceResponse<bool>> UpdateJewelryAsync(JewelryItemDto itemDto);
+    Task<ServiceResponse<bool>> DeleteJewelryAsync(int id);
 }

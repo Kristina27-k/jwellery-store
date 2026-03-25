@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using JewelryStore.Api.Models.Common;
 using JewelryStore.Api.Models.DTOs;
 using JewelryStore.Api.Models.Entities;
 using JewelryStore.Api.Repositories;
@@ -20,11 +21,11 @@ public class AuthService : IAuthService
         _configuration = configuration;
     }
 
-    public async Task<AuthResponse> RegisterAsync(RegisterRequest request)
+    public async Task<ServiceResponse<AuthResponse>> RegisterAsync(RegisterRequest request)
     {
         if (await _authRepository.ExistsAsync(request.Email))
         {
-            throw new Exception("User with this email already exists.");
+            return ServiceResponse<AuthResponse>.Failure("User with this email already exists.");
         }
 
         var user = new UserEntity
@@ -38,31 +39,31 @@ public class AuthService : IAuthService
         var userId = await _authRepository.CreateAsync(user);
         user.Id = userId;
 
-        return new AuthResponse
+        return ServiceResponse<AuthResponse>.Success(new AuthResponse
         {
             Token = GenerateJwtToken(user),
             Username = user.Username,
             Email = user.Email,
             Role = user.Role
-        };
+        }, "Registration successful.");
     }
 
-    public async Task<AuthResponse> LoginAsync(LoginRequest request)
+    public async Task<ServiceResponse<AuthResponse>> LoginAsync(LoginRequest request)
     {
         var user = await _authRepository.GetByEmailAsync(request.Email);
         
         if (user == null || !BC.Verify(request.Password, user.PasswordHash))
         {
-            throw new Exception("Invalid email or password.");
+            return ServiceResponse<AuthResponse>.Failure("Invalid email or password.");
         }
 
-        return new AuthResponse
+        return ServiceResponse<AuthResponse>.Success(new AuthResponse
         {
             Token = GenerateJwtToken(user),
             Username = user.Username,
             Email = user.Email,
             Role = user.Role
-        };
+        }, "Login successful.");
     }
 
     private string GenerateJwtToken(UserEntity user)

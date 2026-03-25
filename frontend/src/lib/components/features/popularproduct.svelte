@@ -1,41 +1,23 @@
-<script>
-    import opacuityimg from "$lib/img/opacity.png";
-    import heeroing from "$lib/img/bg.png";
-    import earring from "$lib/img/earring.png";
-    import Nav from "$lib/components/features/nav.svelte";
+<script lang="ts">
+    import { onMount } from "svelte";
+    import { fetchJewelry } from "$lib/services/jewelryService";
+    import type { JewelryItem } from "$lib/types/jewelry";
     import necklace from "$lib/img/necklace.png";
-    // import "../app.css";
-    let products = [
-        {
-            id: 1,
-            name: "Pearls with Gold",
-            description: "14 k Gold Earrings with Pearls",
-            price: 6000,
-            img: earring,
-        },
 
-        {
-            id: 2,
-            name: "Pearls with Gold",
-            description: "14 k Gold Earrings with Pearls",
-            price: 6000,
-            img: earring,
-        },
-        {
-            id: 3,
-            name: "Pearls with Gold",
-            description: "14 k Gold Earrings with Pearls",
-            price: 6000,
-            img: earring,
-        },
-        {
-            id: 4,
-            name: "Pearls with Gold",
-            description: "14 k Gold Earrings with Pearls",
-            price: 6000,
-            img: earring,
-        },
-    ];
+    let products: JewelryItem[] = [];
+    let loading = true;
+    let error = "";
+
+    onMount(async () => {
+        try {
+            products = await fetchJewelry();
+            loading = false;
+        } catch (e: any) {
+            error = e.message;
+            loading = false;
+        }
+    });
+
     let items = [
         {
             id: 1,
@@ -54,28 +36,36 @@
         <div
             class="grid grid-cols-4 gap-10 px-10 flex justify-center items-center"
         >
-            {#each products as product (product.id)}
-                <div class=" ">
-                    <img
-                        class="h-50 w-50 object-cover"
-                        src={product.img}
-                        alt="earring"
-                    />
-                    <div class="bg-[#DBCDBD] py-2 px-4 w-64">
-                        <span class="flex justify-center text-[16px] w-full">
-                            {product.name}
-                        </span>
-                        <span class="text-[14px] flex justify-center">
-                            {product.description}
-                        </span>
-                        <div class="flex justify-center text-[14px]">
-                            <button class="bg-white px-5 py-0.5 mt-1">
-                                {product.price}</button
+            {#if loading}
+                <p>Loading products...</p>
+            {:else if error}
+                <p class="text-red-500">{error}</p>
+            {:else}
+                {#each products as product (product.id)}
+                    <div class=" ">
+                        <img
+                            class="h-50 w-50 object-cover"
+                            src={product.imageUrl}
+                            alt={product.name}
+                        />
+                        <div class="bg-[#DBCDBD] py-2 px-4 w-64">
+                            <span
+                                class="flex justify-center text-[16px] w-full"
                             >
+                                {product.name}
+                            </span>
+                            <span class="text-[14px] flex justify-center">
+                                {product.description}
+                            </span>
+                            <div class="flex justify-center text-[14px]">
+                                <button class="bg-white px-5 py-0.5 mt-1">
+                                    Rs{product.price}</button
+                                >
+                            </div>
                         </div>
                     </div>
-                </div>
-            {/each}
+                {/each}
+            {/if}
         </div>
     </section>
     <section class="mt-10 px-10 relative">
@@ -88,7 +78,9 @@
                         alt="necklace"
                     />
                 </div>
-                <div class="absolute top-30 text-black text-[36px] uppercase left-17">
+                <div
+                    class="absolute top-30 text-black text-[36px] uppercase left-17"
+                >
                     {item.text}
                 </div>
             {/each}

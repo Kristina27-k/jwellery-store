@@ -1,6 +1,8 @@
+import { PUBLIC_API_BASE_URL } from '$env/static/public';
 import type { User } from '$lib/types/user';
+import type { ApiResponse } from '$lib/types/api';
 
-const API_URL = 'http://localhost:5246/api/Auth'; // Adjust port if necessary
+const API_URL = `${PUBLIC_API_BASE_URL}/Auth`;
 
 export const register = async (username: string, email: string, password: string): Promise<User> => {
     const response = await fetch(`${API_URL}/register`, {
@@ -9,12 +11,13 @@ export const register = async (username: string, email: string, password: string
         body: JSON.stringify({ username, email, password })
     });
 
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Registration failed');
+    const result: ApiResponse<User> = await response.json();
+
+    if (!result.isSuccess) {
+        throw new Error(result.message || 'Registration failed');
     }
 
-    return await response.json();
+    return result.data as User;
 };
 
 export const login = async (email: string, password: string): Promise<User> => {
@@ -24,10 +27,11 @@ export const login = async (email: string, password: string): Promise<User> => {
         body: JSON.stringify({ email, password })
     });
 
-    if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Login failed');
+    const result: ApiResponse<User> = await response.json();
+
+    if (!result.isSuccess) {
+        throw new Error(result.message || 'Login failed');
     }
 
-    return await response.json();
+    return result.data as User;
 };

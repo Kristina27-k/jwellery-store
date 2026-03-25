@@ -150,7 +150,7 @@ person = {
 
 <!-- Header.svelte -->
 <script>
-	import NavBar from "$lib/components/features/nav.svelte";
+	import NavBar from "$lib/components/layout/nav.svelte";
 	import heeroing from "$lib/img/bg.png";
 	export let title = "The Kristi Shop";
 	import Herosection from "$lib/components/features/hero.svelte";

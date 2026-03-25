@@ -1,6 +1,6 @@
 <script lang="ts">
 	import favicon from "$lib/assets/favicon.svg";
-	import Nav from "$lib/components/features/nav.svelte";
+	import Nav from "$lib/components/layout/nav.svelte";
 	 import '../app.css';
 
 	let { children } = $props();

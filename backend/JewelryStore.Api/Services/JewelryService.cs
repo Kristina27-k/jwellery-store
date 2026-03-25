@@ -13,34 +13,39 @@ public class JewelryService : IJewelryService
         _repository = repository;
     }
 
-    public async Task<IEnumerable<JewelryItemDto>> GetAllJewelryAsync()
+    public async Task<ServiceResponse<IEnumerable<JewelryItemDto>>> GetAllJewelryAsync()
     {
         var entities = await _repository.GetAllAsync();
-        return entities.Select(MapToDto);
+        var dtos = entities.Select(MapToDto);
+        return ServiceResponse<IEnumerable<JewelryItemDto>>.Success(dtos);
     }
 
-    public async Task<JewelryItemDto?> GetJewelryByIdAsync(int id)
+    public async Task<ServiceResponse<JewelryItemDto>> GetJewelryByIdAsync(int id)
     {
         var entity = await _repository.GetByIdAsync(id);
-        return entity != null ? MapToDto(entity) : null;
+        if (entity == null) return ServiceResponse<JewelryItemDto>.Failure("Product not found.");
+        return ServiceResponse<JewelryItemDto>.Success(MapToDto(entity));
     }
 
-    public async Task AddJewelryAsync(JewelryItemDto itemDto)
+    public async Task<ServiceResponse<JewelryItemDto>> AddJewelryAsync(JewelryItemDto itemDto)
     {
         var entity = MapToEntity(itemDto);
         await _repository.AddAsync(entity);
         itemDto.Id = entity.Id;
+        return ServiceResponse<JewelryItemDto>.Success(itemDto, "Product added successfully.");
     }
 
-    public async Task UpdateJewelryAsync(JewelryItemDto itemDto)
+    public async Task<ServiceResponse<bool>> UpdateJewelryAsync(JewelryItemDto itemDto)
     {
         var entity = MapToEntity(itemDto);
         await _repository.UpdateAsync(entity);
+        return ServiceResponse<bool>.Success(true, "Product updated successfully.");
     }
 
-    public async Task DeleteJewelryAsync(int id)
+    public async Task<ServiceResponse<bool>> DeleteJewelryAsync(int id)
     {
         await _repository.DeleteAsync(id);
+        return ServiceResponse<bool>.Success(true, "Product deleted successfully.");
     }
 
     private static JewelryItemDto MapToDto(JewelryItemEntity entity) => new()
