@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { auth, logout } from '$lib/stores/authStore';
+	import { auth, logout } from "$lib/stores/authStore";
 	export let links = [
 		{ name: "Home", url: "/" },
 		{ name: "About", url: "/about" },
@@ -14,9 +14,9 @@
 				<a href={link.url}>{link.name}</a>
 			</li>
 		{/each}
-		
+
 		{#if $auth}
-			{#if $auth.role === 'Admin'}
+			{#if $auth.role === "Admin"}
 				<li>
 					<a href="/admin">Admin</a>
 				</li>
@@ -40,17 +40,6 @@
 		{/if}
 	</ul>
 </nav>
-
-<style>
-	.logout-btn {
-		background: none;
-		border: none;
-		color: red;
-		cursor: pointer;
-		font: inherit;
-		padding: 0;
-	}
-</style>
 
 <!-- <style>
 	nav {
@@ -76,3 +65,14 @@
 		color: #00ffcc;
 	}
 </style> -->
+
+<style>
+	.logout-btn {
+		background: none;
+		border: none;
+		color: red;
+		cursor: pointer;
+		font: inherit;
+		padding: 0;
+	}
+</style>
