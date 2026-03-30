@@ -27,17 +27,17 @@ public class CategoryService : ICategoryService
 
         if (result == null)
         {
-            return new ServiceResponse<CategoryDto>
-            {
-                Success = false,
-                Message = "Category not found"
-            };
+            return ServiceResponse<CategoryDto>.Failure("Category not found");
         }
 
 
-        return ServiceResponse<CategoryDto>.Success(new CategoryDto
+        var dto = new CategoryDto
         {
-           CategoryDto
-        }, "Get successful.");
+            Id = result.Id,
+            Name = result.cat_name,
+            Description = result.Description
+        };
+
+        return ServiceResponse<CategoryDto>.Success(dto, "Get successful.");
     }
 }
