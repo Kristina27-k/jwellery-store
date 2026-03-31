@@ -6,5 +6,5 @@ namespace JewelryStore.Api.Services;
 public interface ICategoryService
 {
     
-    Task<ServiceResponse<CategoryDto>> GetAllCategoryAsync(CategoryDto request);
+    Task<ServiceResponse<CategoryDto>> GetAllCategoryAsync();
 }

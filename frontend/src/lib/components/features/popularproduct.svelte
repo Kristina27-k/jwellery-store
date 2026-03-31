@@ -33,9 +33,7 @@
         <h2 class="capitalize text-[28px]">popular product</h2>
     </section>
     <section class="">
-        <div
-            class="grid grid-cols-4 gap-10 px-10 flex justify-center items-center"
-        >
+        <div class="grid grid-cols-4 gap-10 px-10 flex justify-center items-center">
             {#if loading}
                 <p>Loading products...</p>
             {:else if error}
@@ -46,12 +44,10 @@
                         <img
                             class="h-50 w-50 object-cover"
                             src={product.imageUrl}
-                            alt={product.name}
-                        />
+                            alt={product.name}/>
                         <div class="bg-[#DBCDBD] py-2 px-4 w-64">
                             <span
-                                class="flex justify-center text-[16px] w-full"
-                            >
+                                class="flex justify-center text-[16px] w-full">
                                 {product.name}
                             </span>
                             <span class="text-[14px] flex justify-center">
@@ -59,8 +55,7 @@
                             </span>
                             <div class="flex justify-center text-[14px]">
                                 <button class="bg-white px-5 py-0.5 mt-1">
-                                    Rs{product.price}</button
-                                >
+                                    Rs{product.price}</button>
                             </div>
                         </div>
                     </div>
@@ -75,15 +70,14 @@
                     <img
                         class="h-90 w-60 object-cover"
                         src={necklace}
-                        alt="necklace"
-                    />
+                        alt="necklace"/>
                 </div>
                 <div
-                    class="absolute top-30 text-black text-[36px] uppercase left-17"
-                >
+                    class="absolute top-30 text-black text-[36px] uppercase left-17">
                     {item.text}
                 </div>
             {/each}
         </div>
     </section>
+   
 </section>

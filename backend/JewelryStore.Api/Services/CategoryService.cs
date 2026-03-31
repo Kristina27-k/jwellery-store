@@ -21,7 +21,7 @@ public class CategoryService : ICategoryService
         _configuration = configuration;
     }
 
-    public async Task<ServiceResponse<CategoryDto>> GetAllCategoryAsync(CategoryDto request)
+    public async Task<ServiceResponse<CategoryDto>> GetAllCategoryAsync()
     {
         var result = await _catrepo.GetAllCatagoryAsync();
 
