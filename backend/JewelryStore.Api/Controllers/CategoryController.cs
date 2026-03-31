@@ -10,7 +10,7 @@ public class CategoryController : ControllerBase
 {
     private readonly ICategoryService _service;
 
-    public JewelryController(ICategoryService service)
+    public CategoryController(ICategoryService service)
     {
         _service = service;
     }
