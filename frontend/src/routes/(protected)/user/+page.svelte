@@ -1,5 +1,6 @@
 <script lang="ts">
     import { auth } from "$lib/stores/authStore";
+    
     console.log($auth);
 </script>
 

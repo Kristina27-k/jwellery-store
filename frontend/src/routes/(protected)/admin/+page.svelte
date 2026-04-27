@@ -1,5 +1,6 @@
 <script lang="ts">
     import { auth } from '$lib/stores/authStore';
+    
 </script>
 
 <div class="container mx-auto p-8">

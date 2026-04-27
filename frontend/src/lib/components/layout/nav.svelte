@@ -1,78 +1,99 @@
 <script lang="ts">
 	import { auth, logout } from "$lib/stores/authStore";
+	import { cart } from "$lib/stores/cartStores";
+	
+
 	export let links = [
 		{ name: "Home", url: "/" },
-		{ name: "About", url: "/about" },
-		{ name: "Contact", url: "/contact" },
+		{ name: "Shop", url: "/shop" },
+		{ name: "Contact", url: "/contact" }
 	];
 </script>
 
-<nav class="text-black">
-	<ul class="flex">
+<nav class="bg-white shadow-md px-6 py-3 flex justify-between items-center">
+	<!-- Logo -->
+	<div class="text-2xl font-bold tracking-wide">
+		<span class="text-pink-500">Kristy</span>
+		<span class="text-gray-800">Store</span>
+	</div>
+
+	<!-- Links -->
+	<ul class="flex items-center gap-6">
 		{#each links as link}
 			<li>
-				<a href={link.url}>{link.name}</a>
+				<a
+					href={link.url}
+					class="text-gray-700 hover:text-pink-500 transition font-medium"
+				>
+					{link.name}
+				</a>
 			</li>
 		{/each}
 
 		{#if $auth}
 			{#if $auth.role === "Admin"}
 				<li>
-					<a href="/admin">Admin</a>
+					<a
+						href="/admin"
+						class="text-gray-700 hover:text-purple-600 font-medium transition"
+					>
+						Admin
+					</a>
 				</li>
 			{/if}
+
 			<li>
-				<a href="/user">Account</a>
+				<a
+					href="/user"
+					class="text-gray-700 hover:text-pink-500 font-medium transition"
+				>
+					Account
+				</a>
 			</li>
-			<li class="px-4">
-				<span class="text-gray-600">{$auth.username}</span>
-			</li>
+
 			<li>
-				<button onclick={logout} class="logout-btn">Logout</button>
+				<span class="text-sm text-gray-500">
+					 <span class="font-semibold text-gray-800">{$auth.username}</span>
+				</span>
+			</li>
+
+			<li>
+				<button
+					on:click={logout}
+					class="bg-red-500 hover:bg-red-600 text-white px-4 py-1.5 rounded-lg text-sm transition"
+				>
+					Logout
+				</button>
 			</li>
 		{:else}
 			<li>
-				<a href="/login">Login</a>
+				<a
+					href="/login"
+					class="text-gray-700 hover:text-pink-500 font-medium transition"
+				>
+					Login
+				</a>
 			</li>
+
 			<li>
-				<a href="/register">Register</a>
+				<a
+					href="/register"
+					class="bg-pink-500 hover:bg-pink-600 text-white px-4 py-1.5 rounded-lg text-sm transition shadow-sm"
+				>
+					Register
+				</a>
 			</li>
 		{/if}
 	</ul>
+	<li class="relative">
+	<a href="cart" class="text-gray-700 hover:text-pink-500 text-xl">
+		🛒
+	</a>
+
+	{#if $cart && $cart.length > 0}
+		<span class="absolute -top-2 -right-3 bg-pink-500 text-white text-xs px-1.5 rounded-full">
+			{$cart.length}
+		</span>
+	{/if}
+</li>
 </nav>
-
-<!-- <style>
-	nav {
-		background: #222;
-		padding: 1rem;
-	}
-
-	ul {
-		list-style: none;
-		display: flex;
-		gap: 20px;
-		margin: 0;
-		padding: 0;
-	}
-
-	a {
-		color: white;
-		text-decoration: none;
-		font-weight: bold;
-	}
-
-	a:hover {
-		color: #00ffcc;
-	}
-</style> -->
-
-<style>
-	.logout-btn {
-		background: none;
-		border: none;
-		color: red;
-		cursor: pointer;
-		font: inherit;
-		padding: 0;
-	}
-</style>

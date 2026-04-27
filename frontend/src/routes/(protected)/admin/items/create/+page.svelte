@@ -1,5 +1,6 @@
 <script lang="ts">
 // import { jewelry } from '$lib/services/jewelryService';
+import Fileupload from "$lib/components/common/fimageupload.svelte";
 
 </script>
 
@@ -70,9 +71,7 @@
     <label for="price">Price</label>
     <input type="number" id="price" name="price" step="0.01" placeholder="Enter price" required>
 
-    <label for="image_url">Image URL</label>
-    <input type="text" id="image_url" name="image_url" placeholder="Enter image URL" required>
-
+    
     <label for="category_id">Category</label>
     <select id="category_id" name="category_id" required>
       <option value="">-- Select Category --</option>
@@ -81,7 +80,7 @@
       
     
     </select>
-
+<Fileupload />
     <button type="submit">Update Product</button>
   </form>
 
