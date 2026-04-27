@@ -16,7 +16,12 @@
         try {
             const user = await login(email, password);
             auth.set(user);
-            goto('/');
+            
+            if (user.role === 'Admin') {
+                goto('/admin');
+            } else {
+                goto('/');
+            }
         } catch (e: any) {
             error = e.message;
         } finally {

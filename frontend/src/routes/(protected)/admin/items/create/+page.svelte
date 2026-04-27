@@ -1,86 +1,276 @@
 <script lang="ts">
-// import { jewelry } from '$lib/services/jewelryService';
-import Fileupload from "$lib/components/common/fimageupload.svelte";
+    import { createJewelry } from "$lib/services/jewelryService";
+    import { goto } from "$app/navigation";
+    import { onMount } from "svelte";
+    import { PUBLIC_API_BASE_URL } from '$env/static/public';
 
+    let name = "";
+    let description = "";
+    let price = 0;
+    let categoryId = 1;
+    let imageFile: File | null = null;
+    let loading = false;
+    let error = "";
+    let uploadProgress = false;
+
+    async function handleFileChange(event: Event) {
+        const target = event.target as HTMLInputElement;
+        if (target.files && target.files[0]) {
+            imageFile = target.files[0];
+        }
+    }
+
+    async function uploadImage(): Promise<string> {
+        if (!imageFile) return "https://images.unsplash.com/photo-1515562141207-7a1891ce32c3?auto=format&fit=crop&q=80&w=800";
+
+        const formData = new FormData();
+        formData.append("file", imageFile);
+
+        const response = await fetch(`${PUBLIC_API_BASE_URL}/Upload`, {
+            method: "POST",
+            body: formData
+        });
+
+        if (!response.ok) throw new Error("Failed to upload image");
+        const data = await response.json();
+        return data.url;
+    }
+
+    async function handleSubmit() {
+        loading = true;
+        error = "";
+        try {
+            uploadProgress = true;
+            const uploadedUrl = await uploadImage();
+            uploadProgress = false;
+
+            await createJewelry({
+                name,
+                description,
+                price,
+                categoryId,
+                imageUrl: uploadedUrl
+            });
+            goto("/admin");
+        } catch (e: any) {
+            error = e.message;
+        } finally {
+            loading = false;
+            uploadProgress = false;
+        }
+    }
 </script>
 
-  <title>Update Product</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+<div class="admin-container">
+    <div class="form-card">
+        <header>
+            <h1>Add New Jewelry</h1>
+            <p>Fill in the details to add a new item to the store.</p>
+        </header>
+
+        <form on:submit|preventDefault={handleSubmit}>
+            <div class="input-group">
+                <label for="name">Product Name</label>
+                <input
+                    type="text"
+                    id="name"
+                    bind:value={name}
+                    placeholder="e.g. Diamond Solitaire Ring"
+                    required
+                />
+            </div>
+
+            <div class="input-group">
+                <label for="description">Description</label>
+                <textarea
+                    id="description"
+                    bind:value={description}
+                    rows="4"
+                    placeholder="Describe the item's beauty and materials..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="row">
+                <div class="input-group">
+                    <label for="price">Price (Rs)</label>
+                    <input
+                        type="number"
+                        id="price"
+                        bind:value={price}
+                        step="0.01"
+                        min="0"
+                        required
+                    />
+                </div>
+
+                <div class="input-group">
+                    <label for="category">Category</label>
+                    <select id="category" bind:value={categoryId}>
+                        <option value={1}>Rings</option>
+                        <option value={2}>Necklaces</option>
+                        <option value={3}>Bracelets</option>
+                        <option value={4}>Earrings</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="image">Product Image</label>
+                <input
+                    type="file"
+                    id="image"
+                    accept="image/*"
+                    on:change={handleFileChange}
+                    class="file-input"
+                />
+                <small>Upload a high-quality image of the jewelry.</small>
+            </div>
+
+            {#if error}
+                <div class="error-message">{error}</div>
+            {/if}
+
+            <div class="actions">
+                <button
+                    type="button"
+                    class="btn-secondary"
+                    on:click={() => goto("/admin")}>Cancel</button
+                >
+                <button type="submit" class="btn-primary" disabled={loading}>
+                    {loading ? (uploadProgress ? "Uploading Image..." : "Creating...") : "Create Item"}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .admin-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        padding: 2rem;
     }
-    form {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 400px;
+
+    .form-card {
+        background: white;
+        width: 100%;
+        max-width: 600px;
+        padding: 3rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
-    form h2 {
-      text-align: center;
-      margin-bottom: 1rem;
+
+    header {
+        margin-bottom: 2.5rem;
+        text-align: center;
     }
+
+    h1 {
+        font-size: 2rem;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+    }
+
+    header p {
+        color: #666;
+    }
+
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+    }
+
     label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: bold;
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-size: 0.9rem;
     }
-    input[type="text"],
-    input[type="number"],
+
+    input,
     textarea,
     select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-top: 0.3rem;
-      border-radius: 4px;
-      border: 1px solid #ccc;
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.2s;
     }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+        outline: none;
+        border-color: #c9a227;
+        box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
+    }
+
+    small {
+        display: block;
+        margin-top: 0.4rem;
+        color: #999;
+        font-size: 0.8rem;
+    }
+
+    .error-message {
+        background: #fff5f5;
+        color: #e53e3e;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        border-left: 4px solid #e53e3e;
+    }
+
+    .actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
     button {
-      margin-top: 1.5rem;
-      width: 100%;
-      padding: 0.7rem;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 1rem;
-      cursor: pointer;
+        flex: 1;
+        padding: 1rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
     }
-    button:hover {
-      background: #45a049;
+
+    .btn-primary {
+        background: #c9a227;
+        color: white;
+        border: none;
     }
-  </style>
 
+    .btn-primary:hover:not(:disabled) {
+        background: #b08d20;
+        transform: translateY(-2px);
+    }
 
-  <form action="/update-product" method="POST">
-    <h2>Update Product</h2>
+    .btn-secondary {
+        background: white;
+        color: #666;
+        border: 1px solid #e0e0e0;
+    }
 
-    <input type="hidden" name="id" value="<!-- Set product ID here -->">
+    .btn-secondary:hover {
+        background: #f5f5f5;
+    }
 
-    <label for="name">Product Name</label>
-    <input type="text" id="name" name="name" placeholder="Enter product name" required>
-
-    <label for="description">Description</label>
-    <textarea id="description" name="description" rows="4" placeholder="Enter description" required></textarea>
-
-    <label for="price">Price</label>
-    <input type="number" id="price" name="price" step="0.01" placeholder="Enter price" required>
-
-    
-    <label for="category_id">Category</label>
-    <select id="category_id" name="category_id" required>
-      <option value="">-- Select Category --</option>
-      <option value="1">Jewelry</option>
-      <option value="2">Accessories</option>
-      
-    
-    </select>
-<Fileupload />
-    <button type="submit">Update Product</button>
-  </form>
-
+    button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+</style>

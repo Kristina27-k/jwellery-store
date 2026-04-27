@@ -23,3 +23,40 @@ export const fetchJewelryById = async (id: number): Promise<JewelryItem> => {
     }
     return result.data;
 };
+
+export const createJewelry = async (item: Omit<JewelryItem, 'id'>): Promise<JewelryItem> => {
+    const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item)
+    });
+    const result: ApiResponse<JewelryItem> = await response.json();
+    if (!result.isSuccess || !result.data) {
+        throw new Error(result.message || 'Failed to create jewelry item');
+    }
+    return result.data;
+};
+
+export const updateJewelry = async (item: JewelryItem): Promise<boolean> => {
+    const response = await fetch(API_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item)
+    });
+    const result: ApiResponse<boolean> = await response.json();
+    if (!result.isSuccess) {
+        throw new Error(result.message || 'Failed to update jewelry item');
+    }
+    return true;
+};
+
+export const deleteJewelry = async (id: number): Promise<boolean> => {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE'
+    });
+    const result: ApiResponse<boolean> = await response.json();
+    if (!result.isSuccess) {
+        throw new Error(result.message || 'Failed to delete jewelry item');
+    }
+    return true;
+};
