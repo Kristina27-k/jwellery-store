@@ -1,9 +1,9 @@
 <script lang="ts">
     import { page } from '$app/stores';
-    import { logout } from '$lib/services/authService';
+    import { logout } from '$lib/stores/authStore';
 
-    async function handleLogout() {
-        await logout();
+    function handleLogout() {
+        logout();
         window.location.href = '/login';
     }
 
