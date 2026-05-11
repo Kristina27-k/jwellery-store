@@ -71,3 +71,38 @@ export const submitEsewaPayment = (payment: EsewaInitiation): void => {
     document.body.appendChild(form);
     form.submit();
 };
+
+export interface PaymentTransaction {
+    id: number;
+    userId: number;
+    provider: string;
+    orderId: string;
+    providerSessionId?: string | null;
+    providerTransactionId?: string | null;
+    amountPaisa: number;
+    amountRupees: number;
+    status: string;
+    clientReturnBaseUrl: string;
+    rawResponse?: string | null;
+    createdAt: string;
+    updatedAt: string;
+    completedAt?: string | null;
+}
+
+export const getAdminOrders = async (): Promise<PaymentTransaction[]> => {
+    const response = await fetch(`${API_URL}/admin/orders`, {
+        method: 'GET',
+        headers: getHeaders()
+    });
+
+    return parseResponse<PaymentTransaction[]>(response);
+};
+
+export const getUserOrders = async (): Promise<PaymentTransaction[]> => {
+    const response = await fetch(`${API_URL}/user/orders`, {
+        method: 'GET',
+        headers: getHeaders()
+    });
+
+    return parseResponse<PaymentTransaction[]>(response);
+};
