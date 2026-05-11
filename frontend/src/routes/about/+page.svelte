@@ -67,4 +67,4 @@
 	<div class="text-center mt-16 text-gray-500 text-sm">
 		Made with ❤️ by Kristy Store Team
 	</div>
-</div>
+</div>pn

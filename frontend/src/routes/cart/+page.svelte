@@ -47,7 +47,8 @@
     }
 
     async function handleCheckout() {
-        alert("Thank you for your purchase!");
+        alert("Thank you for your purchase❤️ .Have a great day 💕");
+      
         await clearCart();
         goto("/");
     }

@@ -28,7 +28,7 @@
         }
         try {
             await addToCart(productId, 1);
-            alert('Item added to cart!');
+            alert('Items added sucesfully');
         } catch (e: any) {
             alert('Failed to add to cart: ' + e.message);
         }
@@ -63,7 +63,7 @@
                             alt={product.name}
                             on:error={(e) => e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found'}
                         />
-                        <div class="bg-[#DBCDBD] py-2 px-4 w-64">
+                        <div class="bg-[#DBCDBD] py-2 px-4 w-full rounded-lg">
                             <span
                                 class="flex justify-center text-[16px] w-full">
                                 {product.name}
