@@ -23,18 +23,19 @@
 
     <div class="mt-8">
         <h2 class="text-2xl font-bold mb-4">Quick Actions</h2>
-        <div class="flex gap-4">
+        <div class="flex gap-4 flex-wrap">
             <a
                 href="/admin/items/create"
                 class="px-6 py-3 bg-pink-500 text-white rounded-lg font-semibold hover:bg-pink-600 transition"
             >
                 Add New Jewelry
             </a>
-            <button
+            <a
+                href="/admin/items"
                 class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition"
             >
                 Manage All Items
-            </button>
+            </a>
         </div>
     </div>
 </div>

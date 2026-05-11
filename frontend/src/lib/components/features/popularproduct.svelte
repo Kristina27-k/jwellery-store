@@ -61,7 +61,7 @@
                             class="h-64 w-full object-cover rounded-t-lg bg-gray-200"
                             src={product.imageUrl || 'https://via.placeholder.com/400x300?text=Jewelry'}
                             alt={product.name}
-                            on:error={(e) => e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found'}
+                            on:error={(e) => ((e.currentTarget as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Image+Not+Found')}
                         />
                         <div class="bg-[#DBCDBD] py-2 px-4 w-full rounded-lg">
                             <span

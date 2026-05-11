@@ -4,14 +4,21 @@
         fetchCart,
         updateQuantity,
         removeFromCart,
-        clearCart,
         type CartItem,
     } from "$lib/services/cartService";
+    import {
+        initiateEsewaPayment,
+        initiateKhaltiPayment,
+        submitEsewaPayment,
+    } from "$lib/services/paymentService";
     import { goto } from "$app/navigation";
+
+    type CheckoutProvider = "esewa" | "khalti" | null;
 
     let cartItems: CartItem[] = [];
     let loading = true;
     let error = "";
+    let checkoutProvider: CheckoutProvider = null;
 
     onMount(async () => {
         await loadCart();
@@ -19,6 +26,7 @@
 
     async function loadCart() {
         loading = true;
+        error = "";
         try {
             cartItems = await fetchCart();
         } catch (e: any) {
@@ -46,11 +54,23 @@
         }
     }
 
-    async function handleCheckout() {
-        alert("Thank you for your purchase❤️ .Have a great day 💕");
-      
-        await clearCart();
-        goto("/");
+    async function handleCheckout(provider: Exclude<CheckoutProvider, null>) {
+        checkoutProvider = provider;
+        error = "";
+
+        try {
+            if (provider === "esewa") {
+                const payment = await initiateEsewaPayment();
+                submitEsewaPayment(payment);
+                return;
+            }
+
+            const payment = await initiateKhaltiPayment();
+            window.location.assign(payment.paymentUrl);
+        } catch (e: any) {
+            error = e.message || "Unable to start checkout.";
+            checkoutProvider = null;
+        }
     }
 
     $: total = cartItems.reduce(
@@ -134,10 +154,30 @@
                         <span>Total</span>
                         <span>Rs {total}</span>
                     </div>
-                    <button
-                        class="btn-primary checkout-btn"
-                        on:click={handleCheckout}>Checkout Now</button
-                    >
+                    <div class="payment-actions">
+                        <button
+                            class="btn-primary checkout-btn"
+                            on:click={() => handleCheckout("esewa")}
+                            disabled={checkoutProvider !== null}
+                        >
+                            {checkoutProvider === "esewa"
+                                ? "Redirecting to eSewa..."
+                                : "Pay with eSewa"}
+                        </button>
+                        <button
+                            class="btn-khalti checkout-btn"
+                            on:click={() => handleCheckout("khalti")}
+                            disabled={checkoutProvider !== null}
+                        >
+                            {checkoutProvider === "khalti"
+                                ? "Redirecting to Khalti..."
+                                : "Pay with Khalti"}
+                        </button>
+                    </div>
+                    <div class="payment-note">
+                        <p>eSewa test OTP: 123456</p>
+                        <p>Khalti test MPIN: 1111, OTP: 987654</p>
+                    </div>
                     <button class="btn-secondary" on:click={() => goto("/")}
                         >Continue Shopping</button
                     >
@@ -198,7 +238,7 @@
     .cart-item img {
         width: 120px;
         height: 120px;
-        object-cover: cover;
+        object-fit: cover;
         border-radius: 12px;
     }
 
@@ -311,6 +351,56 @@
         transform: translateY(-2px);
     }
 
+    .btn-primary:disabled,
+    .btn-khalti:disabled,
+    .btn-secondary:disabled {
+        cursor: not-allowed;
+        opacity: 0.65;
+        transform: none;
+    }
+
+    .payment-actions {
+        display: grid;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    .checkout-btn {
+        margin-top: 0;
+    }
+
+    .btn-khalti {
+        background: #5c2d91;
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 1.2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-khalti:hover {
+        background: #4a2575;
+        transform: translateY(-2px);
+    }
+
+    .payment-note {
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 12px;
+        background: #f8f4ea;
+        color: #5a523f;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .payment-note p {
+        margin: 0;
+    }
+
     .btn-secondary {
         background: transparent;
         color: #666;
@@ -343,5 +433,29 @@
     .loading {
         text-align: center;
         padding: 4rem;
+    }
+
+    .error {
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        background: #fff1f1;
+        color: #b42318;
+        text-align: center;
+    }
+
+    @media (max-width: 900px) {
+        .cart-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .cart-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .item-actions {
+            width: 100%;
+            text-align: left;
+        }
     }
 </style>

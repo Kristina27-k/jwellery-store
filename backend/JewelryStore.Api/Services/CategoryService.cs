@@ -12,24 +12,57 @@ namespace JewelryStore.Api.Services;
 
 public class CategoryService : ICategoryService
 {
-    private readonly ICategoryRepository _catrepo;
+    private readonly ICategoryRepository _categoryRepository;
     private readonly IConfiguration _configuration;
 
-    public CategoryService(ICategoryRepository CategoryRepository, IConfiguration configuration)
+    public CategoryService(ICategoryRepository categoryRepository, IConfiguration configuration)
     {
-        _catrepo = CategoryRepository;
+        _categoryRepository = categoryRepository;
         _configuration = configuration;
+    }
+
+    public async Task<ServiceResponse<IEnumerable<CategoryDto>>> GetAllCategoriesAsync()
+    {
+        var categories = await _categoryRepository.GetAllAsync();
+        var dtos = categories.Select(c => MapToDto(c)).ToList();
+        return ServiceResponse<IEnumerable<CategoryDto>>.Success(dtos, "Categories retrieved successfully.");
+    }
+
+    public async Task<ServiceResponse<CategoryDto>> GetCategoryByIdAsync(int id)
+    {
+        var category = await _categoryRepository.GetByIdAsync(id);
+        if (category == null)
+            return ServiceResponse<CategoryDto>.Failure("Category not found.");
+
+        return ServiceResponse<CategoryDto>.Success(MapToDto(category), "Category retrieved successfully.");
+    }
+
+    public async Task<ServiceResponse<CategoryDto>> CreateCategoryAsync(CategoryDto categoryDto)
+    {
+        var entity = new CategoryEntity { cat_name = categoryDto.Name, Description = categoryDto.Description };
+        var id = await _categoryRepository.CreateAsync(entity);
+        categoryDto.Id = id;
+        return ServiceResponse<CategoryDto>.Success(categoryDto, "Category created successfully.");
+    }
+
+    public async Task<ServiceResponse<bool>> UpdateCategoryAsync(CategoryDto categoryDto)
+    {
+        var entity = new CategoryEntity { Id = categoryDto.Id, cat_name = categoryDto.Name, Description = categoryDto.Description };
+        await _categoryRepository.UpdateAsync(entity);
+        return ServiceResponse<bool>.Success(true, "Category updated successfully.");
+    }
+
+    public async Task<ServiceResponse<bool>> DeleteCategoryAsync(int id)
+    {
+        await _categoryRepository.DeleteAsync(id);
+        return ServiceResponse<bool>.Success(true, "Category deleted successfully.");
     }
 
     public async Task<ServiceResponse<CategoryDto>> GetAllCategoryAsync()
     {
-        var result = await _catrepo.GetAllCatagoryAsync();
-
+        var result = await _categoryRepository.GetAllCatagoryAsync();
         if (result == null)
-        {
             return ServiceResponse<CategoryDto>.Failure("Category not found");
-        }
-
 
         var dto = new CategoryDto
         {
@@ -40,4 +73,11 @@ public class CategoryService : ICategoryService
 
         return ServiceResponse<CategoryDto>.Success(dto, "Get successful.");
     }
+
+    private static CategoryDto MapToDto(CategoryEntity entity) => new()
+    {
+        Id = entity.Id,
+        Name = entity.cat_name,
+        Description = entity.Description
+    };
 }
