@@ -78,8 +78,8 @@
                                 </td>
                                 <td class="p-4 text-gray-500">#{order.userId}</td>
                                 <td class="p-4">
-                                    <span class="capitalize font-medium {order.provider.toLowerCase() === 'esewa' ? 'text-green-600' : 'text-purple-600'}">
-                                        {order.provider}
+                                    <span class="capitalize font-medium {order.provider.toLowerCase() === 'esewa' ? 'text-green-600' : order.provider.toLowerCase() === 'cod' ? 'text-gray-600' : 'text-purple-600'}">
+                                        {order.provider.toUpperCase() === 'COD' ? 'Cash on Delivery' : order.provider}
                                     </span>
                                 </td>
                                 <td class="p-4 font-medium text-gray-800">Rs. {order.amountRupees.toFixed(2)}</td>

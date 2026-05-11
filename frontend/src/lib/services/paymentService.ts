@@ -54,6 +54,15 @@ export const initiateKhaltiPayment = async (): Promise<KhaltiInitiation> => {
     return parseResponse<KhaltiInitiation>(response);
 };
 
+export const initiateCodPayment = async (): Promise<PaymentTransaction> => {
+    const response = await fetch(`${API_URL}/cod/initiate`, {
+        method: 'POST',
+        headers: getHeaders()
+    });
+
+    return parseResponse<PaymentTransaction>(response);
+};
+
 export const submitEsewaPayment = (payment: EsewaInitiation): void => {
     const form = document.createElement('form');
     form.method = 'POST';

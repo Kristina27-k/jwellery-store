@@ -17,6 +17,10 @@ public interface IPaymentService
         string websiteUrl,
         string clientReturnBaseUrl);
 
+    Task<ServiceResponse<PaymentTransactionDto>> InitiateCodAsync(
+        int userId,
+        string clientReturnBaseUrl);
+
     Task<PaymentCallbackResultDto> VerifyEsewaAsync(string? encodedPayload, string? orderId);
     Task<PaymentCallbackResultDto> HandleEsewaFailureAsync(string? orderId);
     Task<PaymentCallbackResultDto> VerifyKhaltiAsync(string? pidx, string? purchaseOrderId, string? callbackStatus, string? transactionId);

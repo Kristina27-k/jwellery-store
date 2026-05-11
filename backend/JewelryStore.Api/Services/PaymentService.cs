@@ -206,6 +206,45 @@ public class PaymentService : IPaymentService
             "Khalti payment initialized.");
     }
 
+    public async Task<ServiceResponse<PaymentTransactionDto>> InitiateCodAsync(int userId, string clientReturnBaseUrl)
+    {
+        var cartItemsResponse = await _cartService.GetUserCartAsync(userId);
+        if (!cartItemsResponse.IsSuccess || cartItemsResponse.Data == null)
+        {
+            return ServiceResponse<PaymentTransactionDto>.Failure(cartItemsResponse.Message);
+        }
+
+        var cartItems = cartItemsResponse.Data.ToList();
+        if (cartItems.Count == 0)
+        {
+            return ServiceResponse<PaymentTransactionDto>.Failure("Your cart is empty.");
+        }
+
+        var totalAmount = cartItems.Sum(item => item.TotalPrice);
+        var amountPaisa = ConvertToPaisa(totalAmount);
+        var orderId = GenerateOrderId("COD", userId);
+
+        var transaction = new PaymentTransactionEntity
+        {
+            UserId = userId,
+            Provider = "cod",
+            OrderId = orderId,
+            AmountPaisa = amountPaisa,
+            AmountRupees = totalAmount,
+            Status = "Pending",
+            ClientReturnBaseUrl = NormalizeBaseUrl(clientReturnBaseUrl),
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        transaction.Id = await _paymentRepository.CreateAsync(transaction);
+
+        await _cartService.ClearUserCartAsync(userId);
+
+        var dto = MapToPaymentTransactionDto(transaction);
+        return ServiceResponse<PaymentTransactionDto>.Success(dto, "Cash on Delivery order placed successfully.");
+    }
+
     public async Task<PaymentCallbackResultDto> VerifyEsewaAsync(string? encodedPayload, string? orderId)
     {
         if (string.IsNullOrWhiteSpace(encodedPayload))

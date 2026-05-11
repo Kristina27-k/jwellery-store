@@ -9,11 +9,12 @@
     import {
         initiateEsewaPayment,
         initiateKhaltiPayment,
+        initiateCodPayment,
         submitEsewaPayment,
     } from "$lib/services/paymentService";
     import { goto } from "$app/navigation";
 
-    type CheckoutProvider = "esewa" | "khalti" | null;
+    type CheckoutProvider = "esewa" | "khalti" | "cod" | null;
 
     let cartItems: CartItem[] = [];
     let loading = true;
@@ -62,6 +63,12 @@
             if (provider === "esewa") {
                 const payment = await initiateEsewaPayment();
                 submitEsewaPayment(payment);
+                return;
+            }
+
+            if (provider === "cod") {
+                await initiateCodPayment();
+                goto("/user/orders");
                 return;
             }
 
@@ -172,6 +179,15 @@
                             {checkoutProvider === "khalti"
                                 ? "Redirecting to Khalti..."
                                 : "Pay with Khalti"}
+                        </button>
+                        <button
+                            class="btn-cod checkout-btn"
+                            on:click={() => handleCheckout("cod")}
+                            disabled={checkoutProvider !== null}
+                        >
+                            {checkoutProvider === "cod"
+                                ? "Processing Order..."
+                                : "Cash on Delivery"}
                         </button>
                     </div>
                     <div class="payment-note">
@@ -353,6 +369,7 @@
 
     .btn-primary:disabled,
     .btn-khalti:disabled,
+    .btn-cod:disabled,
     .btn-secondary:disabled {
         cursor: not-allowed;
         opacity: 0.65;
@@ -384,6 +401,24 @@
 
     .btn-khalti:hover {
         background: #4a2575;
+        transform: translateY(-2px);
+    }
+
+    .btn-cod {
+        background: #2c3e50;
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 1.2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .btn-cod:hover {
+        background: #1a252f;
         transform: translateY(-2px);
     }
 

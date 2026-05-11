@@ -88,6 +88,23 @@ public class PaymentController : ControllerBase
         return Ok(response);
     }
 
+    [Authorize]
+    [HttpPost("cod/initiate")]
+    public async Task<IActionResult> InitiateCod()
+    {
+        var userId = GetUserId();
+        var clientReturnBaseUrl = ResolveClientReturnBaseUrl();
+
+        var response = await _paymentService.InitiateCodAsync(userId, clientReturnBaseUrl);
+
+        if (!response.IsSuccess)
+        {
+            return BadRequest(response);
+        }
+
+        return Ok(response);
+    }
+
     [AllowAnonymous]
     [Route("esewa/callback")]
     [AcceptVerbs("GET", "POST")]

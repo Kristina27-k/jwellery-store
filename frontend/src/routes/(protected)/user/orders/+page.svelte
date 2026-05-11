@@ -73,7 +73,9 @@
                         <p class="text-gray-500 text-sm mb-1">Placed on {formatDate(order.createdAt)}</p>
                         <p class="text-sm">
                             <span class="text-gray-500">Paid via</span>
-                            <span class="capitalize font-medium {order.provider.toLowerCase() === 'esewa' ? 'text-green-600' : 'text-purple-600'}">{order.provider}</span>
+                            <span class="capitalize font-medium {order.provider.toLowerCase() === 'esewa' ? 'text-green-600' : order.provider.toLowerCase() === 'cod' ? 'text-gray-600' : 'text-purple-600'}">
+                                {order.provider.toUpperCase() === 'COD' ? 'Cash on Delivery' : order.provider}
+                            </span>
                         </p>
                     </div>
                     <div class="text-left md:text-right">
